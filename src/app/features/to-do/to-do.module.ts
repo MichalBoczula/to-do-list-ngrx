@@ -6,6 +6,10 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ToDoInMemoryDatabase } from './data/ToDoInMemoryDatabase';
 import { ToDoAddElementComponent } from './to-do-add-element/to-do-add-element.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { ToDoReducer } from './state-manager/reducers/to-do.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { ToDoEffects } from './state-manager/effects/to-do.effects';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forFeature(ToDoInMemoryDatabase, { delay: 1000 }),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forFeature('ToDoReducer', ToDoReducer),
+    EffectsModule.forFeature([ToDoEffects])
   ],
   exports: [
     ToDoListComponent,

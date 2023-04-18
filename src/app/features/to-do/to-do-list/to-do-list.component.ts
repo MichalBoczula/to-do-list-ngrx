@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ToDoModel } from '../model/ToDoModel';
-import { ToDoService } from '../service/to-do.service';
+import { Store } from '@ngrx/store';
+import * as ToDoRequestActions from '../state-manager/actions/to-do.request.actions';
+import { Observable } from 'rxjs';
+import { getToDoList } from '../state-manager/selectors/to-do.selector';
 
 @Component({
   selector: 'app-to-do-list',
@@ -10,13 +13,15 @@ import { ToDoService } from '../service/to-do.service';
 
 export class ToDoListComponent implements OnInit {
 
-  toDoList!: ToDoModel[]
+  toDoList!: ToDoModel[];
 
-  constructor(private toDoService: ToDoService) { }
+  toDoList$?: Observable<ToDoModel[]>;
+
+  constructor(private store: Store<any>) { }
 
   ngOnInit(): void {
-    this.toDoService.toDoList$
-      .subscribe(list => this.toDoList = list);
+    this.store.dispatch(ToDoRequestActions.loadToDoModels());
+    this.toDoList$ = this.store.select(getToDoList);
   }
 
   changeStatus(id: number): void {

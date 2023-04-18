@@ -34,6 +34,12 @@ export class ToDoService {
       })
     ) as Observable<any>;
 
+  toDoListStore$ = this.httpClient.get<ToDoModel[]>(this.url)
+    .pipe(
+      tap(x => console.log(JSON.stringify(x))),
+      catchError(this.handleError)
+    );
+
   constructor(private httpClient: HttpClient) { }
 
   addTask(task: ToDoModel): void {
