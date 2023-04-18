@@ -1,0 +1,36 @@
+<button *ngIf="!isActive" class="btn btn-primary" (click)="activePanel()">Add new Task</button>
+<div *ngIf="isActive" class="row">
+    <div class="col">
+        <div *ngIf="errors" class="alert alert-danger">
+            <p *ngFor="let err of errors">{{err}}</p>
+        </div>
+        <form [formGroup]="taskForm" (ngSubmit)="addTask()">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Desc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            <input formControlName="status" id="status" type="checkbox" />
+                        </th>
+                        <td>
+                            <input formControlName="title" id="title" class="form-control" type="text">
+                        </td>
+                        <td>
+                            <input formControlName="desc" id="desc" class="form-control" type="text">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button class="btn btn-success" type="submit" style="margin: 10px;">Add</button>
+                <button class="btn btn-danger" type="button" (click)="discard()">Discard</button>
+            </div>
+        </form>
+    </div>
+</div>
