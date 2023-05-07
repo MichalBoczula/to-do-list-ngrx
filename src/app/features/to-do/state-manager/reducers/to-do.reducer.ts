@@ -13,16 +13,44 @@ const initialState: ToDoState = {
 
 export const ToDoReducer = createReducer<ToDoState>(
     initialState,
-    on(ToDoRequestActions.loadToDoModelsSuccess, (state, action) => {
+    on(ToDoRequestActions.loadToDoModelsSuccess, (state, { toDoList }) => {
         return {
             ...state,
-            toDoList: action.toDoList
+            toDoList: toDoList
         }
     }),
-    on(ToDoRequestActions.loadToDoModelsFailure, (state, action) => {
+    on(ToDoRequestActions.loadToDoModelsFailure, (state, { error }) => {
         return {
             ...state,
-            error: action.error
+            error: error
+        }
+    }),
+    on(ToDoRequestActions.addTask, (state, { task }) => {
+        return {
+            ...state,
+            toDoList: [...state.toDoList, task]
+        }
+    }),
+    on(ToDoRequestActions.toggleStatus, (state, { id }) => {
+        const updatedTasks = state.toDoList
+            .map(x => {
+                let obj;
+                if (x.id === id) {
+                    obj = {
+                        ...x,
+                        status: !x.status
+                    }
+                }
+                else {
+                    obj = x;
+                }
+
+                return obj;
+            });
+
+        return {
+            ...state,
+            toDoList: updatedTasks
         }
     })
 )

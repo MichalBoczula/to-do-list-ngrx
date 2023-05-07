@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToDoModel } from '../model/ToDoModel';
+import { Store } from '@ngrx/store';
+import * as ToDoRequestActions from '../state-manager/actions/to-do.request.actions';
+import { getLastEleFromList } from '../state-manager/selectors/to-do.selector';
 import { ToDoService } from '../service/to-do.service';
 
 @Component({
@@ -13,7 +16,7 @@ export class ToDoAddElementComponent {
   taskForm!: FormGroup;
   errors?: string[];
 
-  constructor(private formBuilder: FormBuilder, private toDoService: ToDoService) { }
+  constructor(private formBuilder: FormBuilder, private store: Store<any>, private toDoService: ToDoService) { }
 
   activePanel() {
     this.isActive = true;
@@ -30,8 +33,15 @@ export class ToDoAddElementComponent {
       this.errors = undefined;
 
       const task: ToDoModel = this.taskForm.getRawValue();
-      task.id = this.toDoService.getActualId() + 1;
-      this.toDoService.addTask(task);
+      this.store.dispatch(ToDoRequestActions.addTask({ task: task }))
+      let last: ToDoModel = {
+        id: 0,
+        status: false,
+        title: '',
+        desc: ''
+      };
+      this.store.select(getLastEleFromList).subscribe(x => last = x);
+      this.toDoService.addTask(last);
     }
     else {
       this.errors = [];

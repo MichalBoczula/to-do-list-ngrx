@@ -7,10 +7,20 @@ export const loadToDoModels = createAction(
 
 export const loadToDoModelsSuccess = createAction(
     'Loaded tasks array succes',
-    props<{toDoList: ToDoModel[]}>()
+    props<{ toDoList: ToDoModel[] }>()
 );
 
 export const loadToDoModelsFailure = createAction(
     'Loaded tasks array fail',
-    props<{error: string}>()
+    props<{ error: string }>()
+);
+
+export const addTask = createAction(
+    'Add new task',
+    props<{ task: ToDoModel }>()
+);
+
+export const toggleStatus = createAction(
+    'Toggle tasks status',
+    props<{ id: number }>()
 );

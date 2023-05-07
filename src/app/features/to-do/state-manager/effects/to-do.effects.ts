@@ -13,8 +13,8 @@ export class ToDoEffects {
         return this.action$.pipe(
             ofType(ToDoRequestActions.loadToDoModels),
             mergeMap(() => this.toDoService.toDoListStore$.pipe(
-                map(list => ToDoRequestActions.loadToDoModelsSuccess({toDoList: list})),
-                catchError(err => of(ToDoRequestActions.loadToDoModelsFailure({error: err})))
+                map(list => ToDoRequestActions.loadToDoModelsSuccess({ toDoList: list })),
+                catchError(err => of(ToDoRequestActions.loadToDoModelsFailure({ error: err })))
             ))
         )
     })

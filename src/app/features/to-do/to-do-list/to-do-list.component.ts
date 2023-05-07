@@ -13,8 +13,6 @@ import { getToDoList } from '../state-manager/selectors/to-do.selector';
 
 export class ToDoListComponent implements OnInit {
 
-  toDoList!: ToDoModel[];
-
   toDoList$?: Observable<ToDoModel[]>;
 
   constructor(private store: Store<any>) { }
@@ -25,8 +23,6 @@ export class ToDoListComponent implements OnInit {
   }
 
   changeStatus(id: number): void {
-    this.toDoList
-      .filter(x => x.id === id)
-      .map(x => x.status = !x.status);
+    this.store.dispatch(ToDoRequestActions.toggleStatus({ id: id }));
   }
 }

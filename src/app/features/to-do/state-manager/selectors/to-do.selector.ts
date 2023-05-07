@@ -7,3 +7,8 @@ export const getToDoList = createSelector(
     getToDoState,
     state => state.toDoList
 );
+
+export const getLastEleFromList = createSelector(
+    getToDoState,
+    state => state.toDoList[state.toDoList.length - 1]
+);
