@@ -8,7 +8,8 @@ export interface ToDoStore {
 
 const initialState: ToDoState = {
     toDoList: [],
-    error: ''
+    error: '',
+    loaded: false,
 }
 
 export const ToDoReducer = createReducer<ToDoState>(
@@ -16,13 +17,15 @@ export const ToDoReducer = createReducer<ToDoState>(
     on(ToDoRequestActions.loadToDoModelsSuccess, (state, { toDoList }) => {
         return {
             ...state,
-            toDoList: toDoList
+            toDoList: toDoList,
+            loaded: true
         }
     }),
     on(ToDoRequestActions.loadToDoModelsFailure, (state, { error }) => {
         return {
             ...state,
-            error: error
+            error: error,
+            loaded: true
         }
     }),
     on(ToDoRequestActions.addTask, (state, { task }) => {

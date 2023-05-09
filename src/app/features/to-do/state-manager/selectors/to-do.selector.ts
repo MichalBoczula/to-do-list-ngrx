@@ -12,3 +12,13 @@ export const getLastEleFromList = createSelector(
     getToDoState,
     state => state.toDoList[state.toDoList.length - 1]
 );
+
+export const getLoaded = createSelector(
+    getToDoState,
+    state => state.loaded
+);
+
+export const getError = createSelector(
+    getToDoState,
+    state => state.error
+);
